@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>helbCalc - Expenditure Tracker</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <div class="header-top">
+                    <h1>Expenditure Tracker</h1>
+                    <button class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+                        <span class="toggle-icon">🌙</span>
+                    </button>
+                </div>
+                <p>Keep track of your spending</p>
+            </div>
+
+            <div class="budget-section">
+                <div class="budget-input-group">
+                    <label for="budget" class="budget-label">Total Budget:</label>
+                    <input type="text" placeholder="Enter your budget (e.g., 5000)" id="budget" class="input-field budget-field"/>
+                </div>
+                <div class="budget-display">
+                    <div class="budget-card remaining-card">
+                        <p class="budget-label-small">Remaining</p>
+                        <p class="budget-amount" id="Remaining_Amount">0</p>
+                    </div>
+                    <div class="budget-card spent-card">
+                        <p class="budget-label-small">Spent</p>
+                        <p class="budget-amount" id="Spent_Amount">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="form" class="form-section">
+                <div class="input_Wrapper">
+                    <div class="input-group">
+                        <input type="text" placeholder="Item (e.g., laptop)" id="item" class="input-field"/>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="Amount (e.g., 1000)" id="amount" class="input-field"/>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">+ Add Item</button>
+            </form>
+
+            <div class="table-section">
+                <table id="table" class="expenditure-table">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="table-title">My Expenditure</th>
+                        </tr>
+                        <tr>
+                            <th>Item</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="view">
+                        <!-- added items here -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="totals-row">
+                            <td><strong>Total Items:</strong> <span id="Total_Items" class="total-value">0</span></td>
+                            <td><strong>Total Amount:</strong> <span id="Total_Amount" class="total-value">0</span></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="printTable()" class="btn-secondary">🖨️ Print Table</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>helbCalc</h3>
+                <p>Your personal expenditure tracker</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#" onclick="location.reload()">Home</a></li>
+                    <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                    <li><a href="https://twitter.com" target="_blank">Twitter</a></li>
+                    <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Support</h4>
+                <p>Love helbCalc? Show your support! </p>
+                <a href="https://buymeacoffee.com" target="_blank" class="donation-btn">
+                    ☕ Buy me a Coffee
+                </a>
+                <p class="donation-subtitle">Your support helps keep this project alive!</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 <strong>cjdreamy</strong>. All rights reserved.</p>
+            <p>Made with <span class="heart">❤️</span> for better financial tracking</p>
+        </div>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>

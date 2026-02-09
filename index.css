@@ -273,6 +273,33 @@ body.dark-mode .app-logo {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
 }
 
+/* Personalization UI */
+.personalize-section {
+    padding: 18px 25px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent;
+}
+.personal-inputs {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+}
+.personal-inputs .input-field {
+    padding: 10px 12px;
+    font-size: 13px;
+}
+.personal-actions {
+    margin-left: 8px;
+}
+
+@media (max-width: 600px) {
+    .personalize-section { flex-direction: column; align-items: stretch; }
+    .personal-actions { display: flex; justify-content: flex-end; }
+}
+
 .budget-input-group {
     margin-bottom: 15px;
 }

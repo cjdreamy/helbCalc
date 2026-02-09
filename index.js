@@ -42,6 +42,22 @@ darkModeToggle.addEventListener('click', () => {
 
 const form = document.getElementById('form');
 const budgetInput = document.getElementById('budget');
+// Personalization
+let reportTitle = '';
+let reportName = '';
+const savePersonalBtn = document.getElementById('savePersonal');
+const reportTitleInput = document.getElementById('reportTitle');
+const reportNameInput = document.getElementById('reportName');
+
+if(savePersonalBtn){
+    savePersonalBtn.addEventListener('click', () => {
+        reportTitle = (reportTitleInput && reportTitleInput.value) ? reportTitleInput.value.trim() : '';
+        reportName = (reportNameInput && reportNameInput.value) ? reportNameInput.value.trim() : '';
+        // quick feedback
+        savePersonalBtn.textContent = 'Saved';
+        setTimeout(() => savePersonalBtn.textContent = 'Save Personalization', 1200);
+    });
+}
 
 // Budget input listener
 budgetInput.addEventListener('input', (e) => {
@@ -265,7 +281,8 @@ function printTable(){
         </style>
         <body>
             <div class="header-info">
-                <h1>My Money Plan Report</h1>
+                        <h1>${reportTitle && reportTitle.length ? reportTitle : 'My Money Plan Report'}</h1>
+                        ${reportName ? `<div style="margin-top:8px; font-size:14px;">Report for: ${reportName}</div>` : ''}
                 <div class="budget-info">
                     <div class="budget-card">
                         <div class="label">Total Budget</div>

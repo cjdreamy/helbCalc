@@ -106,7 +106,7 @@ if(togglePersonalBtn){
                 togglePersonalBtn.textContent = 'Close Personalize';
                 if(reportTitleInput) reportTitleInput.focus();
             } else {
-                togglePersonalBtn.innerHTML = '✏️ Personalize Report';
+                togglePersonalBtn.innerHTML = `<img class="icon" src="/Assets/icons/personalize.png" alt="pen" loading="lazy">  Personalize Report`;
             }
         }
     });
@@ -116,7 +116,7 @@ if(togglePersonalBtn){
 if(savePersonalBtn){
     savePersonalBtn.addEventListener('click', () => {
         if(personalSection) personalSection.classList.remove('visible');
-        if(togglePersonalBtn) togglePersonalBtn.innerHTML = '✏️ Personalize Report';
+        if(togglePersonalBtn) togglePersonalBtn.innerHTML = `<img class="icon" src="/Assets/icons/personalize.png" alt="pen" loading="lazy"> Personalize Report`;
     });
 }
 

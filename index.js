@@ -88,10 +88,10 @@ function updateDisplay(){
     const view = document.getElementById('view');
     view.innerHTML = '';
     console.log('view was empty')
-Items.forEach((itm, index) => {
+Items.forEach((item, index) => {
     const tr = document.createElement('tr');
-    tr.innerHTML = ` <td>${itm.name}</td> 
-                    <td>${itm.amount}</td>
+    tr.innerHTML = ` <td>${item.name}</td> 
+                    <td>${item.amount}</td>
                     <td class="no-print"><button class="btn-delete" onclick="deleteItem(${index})">Delete</button></td>
     `
     // Add staggered animation delay
@@ -159,11 +159,15 @@ function printTable(){
             <title>My Money Plan</title>
         </head>
         <style>
+        /* Print styles - hide UI elements not suitable for print */
+        .no-print { display: none !important; }
         body{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 30px;
             max-width: 800px;
             margin: 0 auto;
+            color: #111;
+            background: white;
         }
         .header-info {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

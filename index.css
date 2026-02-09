@@ -601,6 +601,110 @@ body.dark-mode .app-logo {
     box-shadow: 0 8px 16px rgba(0,0,0,0.12);
 }
 
+/* Compact actions dropdown to reduce UI clutter */
+.actions-menu {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.actions-toggle {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+}
+.actions-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+.actions-delete {
+    background: #ff4d4f;
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    box-shadow: 0 4px 10px rgba(240, 80, 80, 0.12);
+}
+.actions-delete svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+}
+.actions-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(240, 80, 80, 0.18);
+}
+.actions-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 140px;
+    max-width: 220px;
+    width: auto;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.actions-dropdown.open {
+    display: flex;
+}
+.actions-dropdown .dropdown-item {
+    padding: 10px 12px;
+    text-align: left;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-primary);
+}
+.actions-dropdown .dropdown-item {
+    white-space: normal;
+    word-break: break-word;
+}
+.actions-dropdown .dropdown-item:hover {
+    background: linear-gradient(90deg, rgba(102,126,234,0.06), rgba(118,75,162,0.06));
+}
+.actions-dropdown .delete-item {
+    color: #c0392b;
+    font-weight: 600;
+}
+
+/* Make dropdown full-width on small screens so it's easy to tap */
+@media (max-width: 480px) {
+    .actions-dropdown { right: 0; left: 0; top: calc(100% + 6px); min-width: auto; }
+}
+
+/* Floating clone (appended to body) to avoid clipping by transformed ancestors */
+.actions-dropdown.floating {
+    position: fixed !important;
+    z-index: 3000 !important;
+}
+/* Constrain floating clones too */
+.actions-dropdown.floating {
+    max-width: 260px !important;
+    box-sizing: border-box !important;
+}
+
 /* Hide action column when printing */
 @media print {
     .no-print { display: none !important; }

@@ -2,6 +2,34 @@
 const Items = [];
 let budget = 0;
 
+// Load items and budget from localStorage on page init
+function loadFromLocalStorage(){
+    try {
+        const savedItems = localStorage.getItem('savedItems');
+        if(savedItems){
+            Items.length = 0;
+            Items.push(...JSON.parse(savedItems));
+        }
+        const savedBudget = localStorage.getItem('savedBudget');
+        if(savedBudget){
+            budget = parseFloat(savedBudget);
+            document.getElementById('budget').value = budget;
+        }
+    } catch (err) {
+        console.warn('Could not load from localStorage', err);
+    }
+}
+
+// Save items and budget to localStorage
+function saveToLocalStorage(){
+    try {
+        localStorage.setItem('savedItems', JSON.stringify(Items));
+        localStorage.setItem('savedBudget', budget.toString());
+    } catch (err) {
+        console.warn('Could not save to localStorage', err);
+    }
+}
+
 // Dark Mode Toggle
 const darkModeToggle = document.getElementById('darkModeToggle');
 const htmlElement = document.documentElement;
@@ -24,6 +52,13 @@ function initDarkMode() {
 
 // Initialize dark mode on page load
 initDarkMode();
+
+// Load data from localStorage on page load
+window.addEventListener('load', () => {
+    loadFromLocalStorage();
+    if(Items.length > 0) updateDisplay();
+    updateBudgetDisplay();
+});
 
 // Dark mode toggle listener
 darkModeToggle.addEventListener('click', () => {
@@ -94,6 +129,7 @@ budgetInput.addEventListener('input', (e) => {
         budget = parseFloat(value);
     }
     updateBudgetDisplay();
+    saveToLocalStorage();
 });
 //adding items if enter is pressed
 document.addEventListener('keydown', (event) =>{
@@ -121,6 +157,7 @@ if(isNaN(Amount)){
     return;
 }
 Items.push({name: item, amount: Amount});
+saveToLocalStorage();
 updateDisplay();
 console.log("added", Items)
 })
@@ -132,12 +169,19 @@ function updateDisplay(){
     console.log('view was empty')
 Items.forEach((item, index) => {
     const tr = document.createElement('tr');
-    tr.innerHTML = ` <td>${item.name}</td> 
+    tr.innerHTML = ` <td>${item.name}</td>
                     <td>${item.amount}</td>
                     <td class="no-print">
-                        <button class="btn-secondary btn-duplicate" onclick="duplicateItem(${index})">Duplicate</button>
-                        <button class="btn-secondary btn-addn" onclick="duplicateItemNTimes(${index})">Add N</button>
-                        <button class="btn-delete" onclick="deleteItem(${index})">Delete</button>
+                        <div class="actions-menu">
+                            <button class="actions-delete" onclick="deleteItem(${index})" aria-label="Delete item">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                            <button class="actions-toggle" onclick="toggleActionsMenu(event, ${index})" aria-label="Actions">⋯</button>
+                            <div class="actions-dropdown" id="actions-${index}">
+                                <button class="dropdown-item" onclick="duplicateItem(${index})">Duplicate</button>
+                                <button class="dropdown-item" onclick="duplicateItemNTimes(${index})">Add N</button>
+                            </div>
+                        </div>
                     </td>
     `
     // Add staggered animation delay
@@ -154,6 +198,62 @@ Items.forEach((item, index) => {
 
 }
 
+// Toggle the compact actions dropdown for a row
+function toggleActionsMenu(event, index){
+    event.stopPropagation();
+    // close others first
+    closeAllActionMenus();
+    const el = document.getElementById(`actions-${index}`);
+    if(!el) return;
+
+    // Create a floating clone appended to body to avoid clipping by transformed ancestors
+    const floating = document.createElement('div');
+    floating.className = 'actions-dropdown floating open';
+    floating.id = `actions-floating-${index}`;
+    floating.innerHTML = el.innerHTML;
+    // Prevent clicks inside from closing immediately
+    floating.addEventListener('click', (ev) => ev.stopPropagation());
+    document.body.appendChild(floating);
+
+    // position near the toggle button using viewport coords
+    const btn = event.currentTarget;
+    const btnRect = btn.getBoundingClientRect();
+    // measure after append
+    const fRect = floating.getBoundingClientRect();
+    let left = btnRect.right - fRect.width;
+    if(left < 8) left = Math.max(8, btnRect.left);
+    let top = btnRect.bottom + 8;
+    // prevent overflow bottom/right
+    const padding = 8;
+    if(top + fRect.height + padding > window.innerHeight){
+        top = Math.max(padding, btnRect.top - fRect.height - 8);
+    }
+    if(left + fRect.width + padding > window.innerWidth){
+        left = Math.max(padding, window.innerWidth - fRect.width - padding);
+    }
+    floating.style.left = `${left}px`;
+    floating.style.top = `${top}px`;
+}
+
+// Close any open action dropdowns
+function closeAllActionMenus(){
+    // remove any floating clones
+    document.querySelectorAll('.actions-dropdown.floating').forEach(d => d.remove());
+    // close any inline dropdowns (fallback)
+    document.querySelectorAll('.actions-dropdown.open').forEach(d => {
+        d.classList.remove('open');
+        d.style.position = '';
+        d.style.left = '';
+        d.style.top = '';
+        d.style.display = '';
+    });
+}
+
+// Close menus when clicking outside
+document.addEventListener('click', (e) => {
+    closeAllActionMenus();
+});
+
 function getSubTotals(){
     const Total_Items = document.getElementById('Total_Items');
     const Total_Amount = document.getElementById('Total_Amount');
@@ -166,6 +266,7 @@ function getSubTotals(){
 function deleteItem(index){
     if(typeof index !== 'number') return;
     Items.splice(index, 1);
+    saveToLocalStorage();
     updateDisplay();
 }
 
@@ -175,6 +276,7 @@ function duplicateItem(index){
     const it = Items[index];
     if(!it) return;
     Items.splice(index + 1, 0, { name: it.name, amount: it.amount });
+    saveToLocalStorage();
     updateDisplay();
 }
 
@@ -193,6 +295,7 @@ function duplicateItemNTimes(index){
     const copies = [];
     for(let i = 0; i < n; i++) copies.push({ name: it.name, amount: it.amount });
     Items.splice(index + 1, 0, ...copies);
+    saveToLocalStorage();
     updateDisplay();
 }
 
@@ -225,8 +328,8 @@ function printTable(){
     const totalSpent = Items.reduce((total, item) => total + parseFloat(item.amount), 0);
     const remaining = budget - totalSpent;
     
-    const printWindow = window.open('', '', 'width=800,height=600');
-    printWindow.document.write(`
+    // Build printable HTML
+    const printableHTML = `
         <html>
         <head>
             <title>My Money Plan</title>
@@ -379,9 +482,28 @@ function printTable(){
             </div>
         </body>
         </html>
-        `);
+        `;
+
+    // Save printable content to localStorage before opening print window
+    try {
+        localStorage.setItem('printDraft', printableHTML);
+    } catch (err) {
+        console.warn('Could not save print draft to localStorage', err);
+    }
+
+    const printWindow = window.open('', '', 'width=800,height=600');
+    printWindow.document.write(printableHTML);
     printWindow.document.close();
     printWindow.focus();
     printWindow.print();
+
+    // Clear print draft 1 second after print button is clicked
+    setTimeout(() => {
+        try {
+            localStorage.removeItem('printDraft');
+        } catch (err) {
+            console.warn('Could not clear print draft from localStorage', err);
+        }
+    }, 1000);
 }
 console.log("end");

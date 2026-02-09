@@ -161,7 +161,9 @@ body {
         transform: rotateY(360deg);
     }
 }
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+.header {
+    background: var(--header-bg);
     color: white;
     padding: 30px 20px;
     text-align: center;

@@ -92,6 +92,7 @@ Items.forEach((itm, index) => {
     const tr = document.createElement('tr');
     tr.innerHTML = ` <td>${itm.name}</td> 
                     <td>${itm.amount}</td>
+                    <td class="no-print"><button class="btn-delete" onclick="deleteItem(${index})">Delete</button></td>
     `
     // Add staggered animation delay
     tr.style.animationDelay = `${index * 0.1}s`;
@@ -113,6 +114,13 @@ function getSubTotals(){
     Total_Items.innerText = Items.length;
     Total_Amount.innerText = Items.reduce((total, item) => total + parseFloat(item.amount), 0);
     updateBudgetDisplay();
+}
+
+// delete an item by index
+function deleteItem(index){
+    if(typeof index !== 'number') return;
+    Items.splice(index, 1);
+    updateDisplay();
 }
 
 function updateBudgetDisplay(){

@@ -515,6 +515,32 @@ body.dark-mode .app-logo {
     display: inline-block;
 }
 
+/* Delete button for table rows */
+.btn-delete {
+    background: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 77, 79, 0.25);
+}
+
+.btn-delete:active {
+    transform: scale(0.98);
+}
+
+/* Hide action column when printing */
+@media print {
+    .no-print { display: none !important; }
+}
+
 .form-section {
     padding: 25px;
     border-bottom: 1px solid #e0e0e0;

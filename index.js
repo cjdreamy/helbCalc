@@ -59,6 +59,32 @@ if(savePersonalBtn){
     });
 }
 
+// Toggle personalize inputs visibility
+const togglePersonalBtn = document.getElementById('togglePersonalBtn');
+const personalSection = document.querySelector('.personalize-section');
+if(togglePersonalBtn){
+    togglePersonalBtn.addEventListener('click', () => {
+        if(personalSection){
+            personalSection.classList.toggle('visible');
+            const visible = personalSection.classList.contains('visible');
+            if(visible){
+                togglePersonalBtn.textContent = 'Close Personalize';
+                if(reportTitleInput) reportTitleInput.focus();
+            } else {
+                togglePersonalBtn.innerHTML = '✏️ Personalize Report';
+            }
+        }
+    });
+}
+
+// Close personalize after save (optional)
+if(savePersonalBtn){
+    savePersonalBtn.addEventListener('click', () => {
+        if(personalSection) personalSection.classList.remove('visible');
+        if(togglePersonalBtn) togglePersonalBtn.innerHTML = '✏️ Personalize Report';
+    });
+}
+
 // Budget input listener
 budgetInput.addEventListener('input', (e) => {
     const value = e.target.value;

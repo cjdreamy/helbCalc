@@ -276,11 +276,15 @@ body.dark-mode .app-logo {
 /* Personalization UI */
 .personalize-section {
     padding: 18px 25px;
-    display: flex;
+    display: none;
     gap: 12px;
     align-items: center;
     justify-content: space-between;
     background: transparent;
+    transition: all 0.18s ease;
+}
+.personalize-section.visible {
+    display: flex;
 }
 .personal-inputs {
     display: flex;

@@ -497,13 +497,18 @@ function printTable(){
     printWindow.focus();
     printWindow.print();
 
-    // Clear print draft 1 second after print button is clicked
+    // Clear print draft and saved items/budget 1 second after print button is clicked
     setTimeout(() => {
         try {
-            localStorage.removeItem('printDraft');
+            const clearData = confirm('This will also clear your list but will be saved for printing');
+            if (clearData) {
+                localStorage.removeItem('printDraft');
+                localStorage.removeItem('savedItems');
+                localStorage.removeItem('savedBudget');
+            }
         } catch (err) {
-            console.warn('Could not clear print draft from localStorage', err);
+            console.warn('Could not clear localStorage', err);
         }
-    }, 1000);
+    }, 1);
 }
 console.log("end");

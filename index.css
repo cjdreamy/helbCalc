@@ -575,6 +575,32 @@ body.dark-mode .app-logo {
     transform: scale(0.98);
 }
 
+/* Duplicate / Add N buttons styling */
+.btn-duplicate {
+    background: linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%);
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 6px;
+}
+.btn-addn {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    color: #333;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 6px;
+}
+.btn-duplicate:hover, .btn-addn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
 /* Hide action column when printing */
 @media print {
     .no-print { display: none !important; }

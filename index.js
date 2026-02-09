@@ -134,7 +134,11 @@ Items.forEach((item, index) => {
     const tr = document.createElement('tr');
     tr.innerHTML = ` <td>${item.name}</td> 
                     <td>${item.amount}</td>
-                    <td class="no-print"><button class="btn-delete" onclick="deleteItem(${index})">Delete</button></td>
+                    <td class="no-print">
+                        <button class="btn-secondary btn-duplicate" onclick="duplicateItem(${index})">Duplicate</button>
+                        <button class="btn-secondary btn-addn" onclick="duplicateItemNTimes(${index})">Add N</button>
+                        <button class="btn-delete" onclick="deleteItem(${index})">Delete</button>
+                    </td>
     `
     // Add staggered animation delay
     tr.style.animationDelay = `${index * 0.1}s`;
@@ -162,6 +166,33 @@ function getSubTotals(){
 function deleteItem(index){
     if(typeof index !== 'number') return;
     Items.splice(index, 1);
+    updateDisplay();
+}
+
+// duplicate single item after the given index
+function duplicateItem(index){
+    if(typeof index !== 'number') return;
+    const it = Items[index];
+    if(!it) return;
+    Items.splice(index + 1, 0, { name: it.name, amount: it.amount });
+    updateDisplay();
+}
+
+// duplicate item N times (prompt for count)
+function duplicateItemNTimes(index){
+    if(typeof index !== 'number') return;
+    const it = Items[index];
+    if(!it) return;
+    let n = prompt('How many copies would you like to add?', '1');
+    if(n === null) return; // cancelled
+    n = parseInt(n, 10);
+    if(isNaN(n) || n <= 0){
+        alert('Please enter a valid positive integer');
+        return;
+    }
+    const copies = [];
+    for(let i = 0; i < n; i++) copies.push({ name: it.name, amount: it.amount });
+    Items.splice(index + 1, 0, ...copies);
     updateDisplay();
 }
 

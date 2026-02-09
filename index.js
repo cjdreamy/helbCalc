@@ -14,11 +14,11 @@ function initDarkMode() {
     if(savedMode === 'enabled' || (savedMode === null && prefersDark)) {
         htmlElement.style.colorScheme = 'dark';
         document.body.classList.add('dark-mode');
-        darkModeToggle.innerHTML = '<img src="Assets/icons/light.png" alt="Light Mode" loading="lazy">';
+        darkModeToggle.innerHTML = '<img class="icon" src="Assets/icons/light.png" alt="Light Mode" loading="lazy">';
     } else {
         htmlElement.style.colorScheme = 'light';
         document.body.classList.remove('dark-mode');
-        darkModeToggle.innerHTML = '<img src="Assets/icons/dark.png" alt="Dark Mode" loading="lazy">';
+        darkModeToggle.innerHTML = '<img class="icon" src="Assets/icons/dark.png" alt="Dark Mode" loading="lazy">';
     }
 }
 
@@ -31,11 +31,11 @@ darkModeToggle.addEventListener('click', () => {
     
     if(document.body.classList.contains('dark-mode')) {
         localStorage.setItem('darkMode', 'enabled');
-        darkModeToggle.innerHTML = '<img src="Assets/icons/light.png" alt="Light Mode" loading="lazy">';
+        darkModeToggle.innerHTML = '<img class="icon" src="Assets/icons/light.png" alt="Light Mode" loading="lazy">';
         htmlElement.style.colorScheme = 'dark';
     } else {
         localStorage.setItem('darkMode', 'disabled');
-        darkModeToggle.innerHTML = '<img src="Assets/icons/dark.png" alt="Dark Mode" loading="lazy">';
+        darkModeToggle.innerHTML = '<img class="icon" src="Assets/icons/dark.png" alt="Dark Mode" loading="lazy">';
         htmlElement.style.colorScheme = 'light';
     }
 });

@@ -511,4 +511,4 @@ function printTable(){
         }
     }, 1);
 }
-console.log("end");
+console.log("end of script");
